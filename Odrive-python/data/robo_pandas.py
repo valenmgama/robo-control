@@ -47,7 +47,7 @@ def clean_data(data):
     return df
 
 def get_results(clean):
-    top = clean[clean.error_sum == clean.error_sum.max()]
+    top = clean[clean.error_sum == clean.error_sum.min()]
     top.insert(10, "mass", np.mean(clean.loc[:, 'curr_vel']))
     return top
 

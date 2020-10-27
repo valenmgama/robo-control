@@ -2,10 +2,10 @@
 from sympy import *
 from math import ceil, pi
 
-def build_trajectory(pos1=0, pos2=pi, t1=.5, t2=.5, res=100):
+def build_trajectory(pos1=0, pos2=pi, t1=0.8, t2=0.8, res=75):
 
-    out_T = t1/res
-    ret_T = t2/res
+    out_T = t1/(res)
+    ret_T = t2/(res)
     outbound_trajectory = pol_trajectory(t1, [pos1,pos2,0,0], out_T)
     return_trajectory = pol_trajectory(t2, [pos2,pos1,0,0], ret_T)
     outbound_traj_turns = [p/(2*pi) for p in outbound_trajectory]

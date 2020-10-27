@@ -11,6 +11,7 @@ from setup import calibrate
 from setup import configure
 from setup.calibrate import wait_for_idle
 
+
 def start(odrv):
 
     if (odrv.axis0.encoder.config.pre_calibrated and odrv.axis1.encoder.config.pre_calibrated) != 1:
@@ -48,7 +49,7 @@ def first_time_calibration(odrv):
 
 
 def trajectory(odrv, loop = False, trajectory=tj.build_trajectory()):
-
+    #liveplot()
     configure.set_position_control(odrv)
     odrv.axis0.controller.config.input_mode = INPUT_MODE_PASSTHROUGH
     odrv.axis1.controller.config.input_mode = INPUT_MODE_PASSTHROUGH
@@ -58,6 +59,7 @@ def trajectory(odrv, loop = False, trajectory=tj.build_trajectory()):
         odrv.axis0.controller.input_pos = p
         odrv.axis1.controller.input_pos = p
         time.sleep(trajectory["OUT_PERIOD"])
+
     for p in trajectory["RETURN"]:
         odrv.axis0.controller.input_pos = p
         odrv.axis1.controller.input_pos = p
@@ -74,10 +76,14 @@ def trajectory(odrv, loop = False, trajectory=tj.build_trajectory()):
                     odrv.axis0.controller.input_pos = p
                     odrv.axis1.controller.input_pos = p
                     time.sleep(trajectory["RET_PERIOD"])
+
         except KeyboardInterrupt:
             print("EXIT loop_trajectory")
 
     return "FIN trayectoria"
+
+def liveplot():
+    start_liveplotter(lambda: [odrv0.axis0.encoder.pos_estimate,odrv0.axis0.controller.pos_setpoint])
 
 def trapezoidal(odrv, loop=False, vel_lim=2, accel_lim=48, pos1=0, pos2=.5, t_inter=.1):
 
